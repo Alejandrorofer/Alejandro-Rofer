@@ -1,4 +1,3 @@
-// src/publicacion/publicacion.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Publicacion } from './publicacion.entity';
@@ -12,4 +11,3 @@ import { PublicacionController } from './publicacion.controller';
   exports: [PublicacionService],
 })
 export class PublicacionModule {}
-

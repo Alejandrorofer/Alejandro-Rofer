@@ -1,14 +1,16 @@
 import {
   IsInt,
+  IsNotEmpty,
   IsOptional,
   IsString,
-  IsNumber,
+  MaxLength,
+  IsNumberString,
   IsDateString,
-  Length,
 } from 'class-validator';
 
 export class CreatePublicacionDto {
   @IsInt()
+  @IsNotEmpty()
   usuarioId: number;
 
   @IsOptional()
@@ -21,29 +23,29 @@ export class CreatePublicacionDto {
 
   @IsOptional()
   @IsString()
-  @Length(1, 100)
+  @MaxLength(100)
   titulo?: string;
 
   @IsOptional()
   @IsString()
-  @Length(1, 500)
+  @MaxLength(500)
   descripcion?: string;
 
   @IsOptional()
-  @IsNumber({ maxDecimalPlaces: 2 })
-  valorCredito?: number;
+  @IsNumberString()
+  valorCredito?: string; // ej. "10.50"
 
   @IsOptional()
   @IsDateString()
-  fechaPublicacion?: string;
+  fechaPublicacion?: string; // lo convertimos a Date en el service
 
   @IsOptional()
   @IsString()
-  @Length(1, 45)
+  @MaxLength(45)
   estadoPublica?: string;
 
   @IsOptional()
   @IsString()
-  @Length(1, 255)
+  @MaxLength(255)
   foto?: string;
 }

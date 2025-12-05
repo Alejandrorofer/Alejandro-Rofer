@@ -1,17 +1,26 @@
-// src/promocion/promocion.entity.ts
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity({ name: 'promocion' })
+@Entity('promocion', { schema: 'mydb' })
 export class Promocion {
-  @PrimaryGeneratedColumn({ type: 'int' })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'idpromocion' })
   idpromocion: number;
 
-  @Column({ type: 'varchar', length: 45, nullable: true, default: null })
+  @Column('varchar', {
+    name: 'tipoPromo',
+    length: 45,
+    nullable: true,
+  })
   tipoPromo: string | null;
 
-  @Column({ type: 'date', nullable: true, default: null })
+  @Column('date', {
+    name: 'fechaIniPromo',
+    nullable: true,
+  })
   fechaIniPromo: Date | null;
 
-  @Column({ type: 'date', nullable: true, default: null })
+  @Column('date', {
+    name: 'fechaFinPromo',
+    nullable: true,
+  })
   fechaFinPromo: Date | null;
 }

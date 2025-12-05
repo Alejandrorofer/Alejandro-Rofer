@@ -1,25 +1,24 @@
-// src/categoria/dto/create-categoria.dto.ts
-import { IsInt, IsNotEmpty, IsOptional, IsNumberString } from 'class-validator';
-import { Type } from 'class-transformer';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsNumberString,
+} from 'class-validator';
 
 export class CreateCategoriaDto {
-  @IsNotEmpty()
   @IsInt()
-  @Type(() => Number)
-  publicacion_id: number;
+  @IsNotEmpty()
+  publicacionId: number;
 
-  @IsNotEmpty()
   @IsInt()
-  @Type(() => Number)
-  tablaEquivalencia_id: number;
+  @IsNotEmpty()
+  tablaEquivalenciaId: number;
 
-  @IsNotEmpty()
   @IsInt()
-  @Type(() => Number)
-  catalogo_id: number;
+  @IsNotEmpty()
+  catalogoId: number;
 
   @IsOptional()
   @IsNumberString()
-  // ejemplo: "10.5000"
-  cantidadUnidad?: string;
+  cantidadUnidad?: string; // ej: "12.5000"
 }

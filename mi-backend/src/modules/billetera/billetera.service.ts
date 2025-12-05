@@ -1,4 +1,3 @@
-// src/billetera/billetera.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -15,8 +14,7 @@ export class BilleteraService {
 
   async create(createBilleteraDto: CreateBilleteraDto): Promise<Billetera> {
     const billetera = this.billeteraRepository.create({
-      saldoActual: createBilleteraDto.saldoActual ?? '0.00',
-      saldoRetenido: createBilleteraDto.saldoRetenido ?? '0.00',
+      ...createBilleteraDto,
       fechaUltima: createBilleteraDto.fechaUltima
         ? new Date(createBilleteraDto.fechaUltima)
         : null,
@@ -25,7 +23,7 @@ export class BilleteraService {
     return this.billeteraRepository.save(billetera);
   }
 
-  async findAll(): Promise<Billetera[]> {
+  findAll(): Promise<Billetera[]> {
     return this.billeteraRepository.find();
   }
 
@@ -47,21 +45,14 @@ export class BilleteraService {
   ): Promise<Billetera> {
     const billetera = await this.findOne(id);
 
-    if (updateBilleteraDto.saldoActual !== undefined) {
-      billetera.saldoActual = updateBilleteraDto.saldoActual;
+    if (updateBilleteraDto.fechaUltima) {
+      (updateBilleteraDto as any).fechaUltima = new Date(
+        updateBilleteraDto.fechaUltima,
+      );
     }
 
-    if (updateBilleteraDto.saldoRetenido !== undefined) {
-      billetera.saldoRetenido = updateBilleteraDto.saldoRetenido;
-    }
-
-    if (updateBilleteraDto.fechaUltima !== undefined) {
-      billetera.fechaUltima = updateBilleteraDto.fechaUltima
-        ? new Date(updateBilleteraDto.fechaUltima)
-        : null;
-    }
-
-    return this.billeteraRepository.save(billetera);
+    const updated = Object.assign(billetera, updateBilleteraDto);
+    return this.billeteraRepository.save(updated);
   }
 
   async remove(id: number): Promise<void> {

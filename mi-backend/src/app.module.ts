@@ -1,22 +1,38 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsuarioModule } from 'src/modules/usuario/usuario.module';
-import { Usuario } from 'src/modules/usuario/usuario.entity';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
+import { UsuarioModule } from './modules/usuario/usuario.module';
+import { BilleteraModule } from './modules/billetera/billetera.module';
+import { CategoriaModule } from './modules/categoria/categoria.module';
+import { PublicacionModule } from './modules/publicacion/publicacion.module';
+import { PromocionModule } from './modules/promocion/promocion.module';
+import { IntercambioModule } from './modules/intercambio/intercambio.module';
+import { MovimientoCreditoModule } from './modules/movimiento-credito/movimiento-credito.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',        // cambia si corresponde
-      port: 3306,               // puerto por defecto MySQL
-      username: 'root',   // <-- pon tu usuario de MySQL
-      password: 'root',  // <-- pon tu contraseña
-      database: 'mydb',         // el schema donde está la tabla "usuario"
-      entities: [Usuario],      // o autoLoadEntities: true
-      synchronize: false,       // cuidado con esto en producción
+      host: 'localhost',
+      port: 3306,
+      username: 'root',   // cambia esto
+      password: '',  // y esto
+      database: 'mydb',
+      synchronize: false,
+      autoLoadEntities: true,
     }),
-    UsuarioModule,              // <-- IMPORTANTE: aquí conectas tu módulo
+    UsuarioModule,
+    BilleteraModule,
+    CategoriaModule,
+    PublicacionModule,
+    PromocionModule,
+    IntercambioModule,
+    MovimientoCreditoModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -1,4 +1,3 @@
-// src/billetera/billetera.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Billetera } from './billetera.entity';

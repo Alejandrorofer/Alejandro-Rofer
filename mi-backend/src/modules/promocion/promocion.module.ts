@@ -1,4 +1,3 @@
-// src/promocion/promocion.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Promocion } from './promocion.entity';

@@ -1,4 +1,3 @@
-// src/promocion/promocion.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -15,10 +14,7 @@ export class PromocionService {
 
   async create(createPromocionDto: CreatePromocionDto): Promise<Promocion> {
     const promocion = this.promocionRepository.create({
-      tipoPromo:
-        createPromocionDto.tipoPromo !== undefined
-          ? createPromocionDto.tipoPromo
-          : null,
+      ...createPromocionDto,
       fechaIniPromo: createPromocionDto.fechaIniPromo
         ? new Date(createPromocionDto.fechaIniPromo)
         : null,
@@ -30,49 +26,46 @@ export class PromocionService {
     return this.promocionRepository.save(promocion);
   }
 
-  async findAll(): Promise<Promocion[]> {
+  findAll(): Promise<Promocion[]> {
     return this.promocionRepository.find();
   }
 
   async findOne(id: number): Promise<Promocion> {
-    const promocion = await this.promocionRepository.findOne({
+    const promo = await this.promocionRepository.findOne({
       where: { idpromocion: id },
     });
 
-    if (!promocion) {
+    if (!promo) {
       throw new NotFoundException(`Promoción con id ${id} no encontrada`);
     }
 
-    return promocion;
+    return promo;
   }
 
   async update(
     id: number,
     updatePromocionDto: UpdatePromocionDto,
   ): Promise<Promocion> {
-    const promocion = await this.findOne(id);
+    const promo = await this.findOne(id);
 
-    if (updatePromocionDto.tipoPromo !== undefined) {
-      promocion.tipoPromo = updatePromocionDto.tipoPromo ?? null;
+    if (updatePromocionDto.fechaIniPromo) {
+      (updatePromocionDto as any).fechaIniPromo = new Date(
+        updatePromocionDto.fechaIniPromo,
+      );
     }
 
-    if (updatePromocionDto.fechaIniPromo !== undefined) {
-      promocion.fechaIniPromo = updatePromocionDto.fechaIniPromo
-        ? new Date(updatePromocionDto.fechaIniPromo)
-        : null;
+    if (updatePromocionDto.fechaFinPromo) {
+      (updatePromocionDto as any).fechaFinPromo = new Date(
+        updatePromocionDto.fechaFinPromo,
+      );
     }
 
-    if (updatePromocionDto.fechaFinPromo !== undefined) {
-      promocion.fechaFinPromo = updatePromocionDto.fechaFinPromo
-        ? new Date(updatePromocionDto.fechaFinPromo)
-        : null;
-    }
-
-    return this.promocionRepository.save(promocion);
+    const updated = Object.assign(promo, updatePromocionDto);
+    return this.promocionRepository.save(updated);
   }
 
   async remove(id: number): Promise<void> {
-    const promocion = await this.findOne(id);
-    await this.promocionRepository.remove(promocion);
+    const promo = await this.findOne(id);
+    await this.promocionRepository.remove(promo);
   }
 }

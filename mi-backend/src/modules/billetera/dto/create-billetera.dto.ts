@@ -1,10 +1,14 @@
-// src/billetera/dto/create-billetera.dto.ts
-import { IsOptional, IsNumberString, IsDateString } from 'class-validator';
+import {
+  IsOptional,
+  IsDateString,
+  IsNumberString,
+} from 'class-validator';
 
 export class CreateBilleteraDto {
+  // Si no envías estos campos, MySQL usará el DEFAULT '0.00'
   @IsOptional()
   @IsNumberString()
-  saldoActual?: string; // ejemplo "100.50"
+  saldoActual?: string;
 
   @IsOptional()
   @IsNumberString()
@@ -12,5 +16,5 @@ export class CreateBilleteraDto {
 
   @IsOptional()
   @IsDateString()
-  fechaUltima?: string; // ISO string, ej: "2025-11-26T10:30:00Z"
+  fechaUltima?: string; // lo convertiremos a Date en el servicio si hace falta
 }

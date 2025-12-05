@@ -1,4 +1,3 @@
-// src/promocion/dto/create-promocion.dto.ts
 import { IsOptional, IsString, MaxLength, IsDateString } from 'class-validator';
 
 export class CreatePromocionDto {
@@ -9,10 +8,9 @@ export class CreatePromocionDto {
 
   @IsOptional()
   @IsDateString()
-  // formato ISO: "2025-11-26" o "2025-11-26T00:00:00Z"
-  fechaIniPromo?: string;
+  fechaIniPromo?: string; // la convertimos a Date en el service
 
   @IsOptional()
   @IsDateString()
-  fechaFinPromo?: string;
+  fechaFinPromo?: string; // igual
 }

@@ -1,32 +1,34 @@
-// src/usuario/dto/create-usuario.dto.ts
 import {
   IsInt,
+  IsNotEmpty,
   IsOptional,
   IsString,
-  Length,
-  IsNotEmpty,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 
 export class CreateUsuarioDto {
   @IsOptional()
   @IsString()
-  @Length(1, 45)
+  @MaxLength(45)
   nombre?: string;
 
   @IsOptional()
   @IsString()
-  @Length(1, 45)
+  @MaxLength(45)
   apellido?: string;
 
   @IsString()
   @IsNotEmpty()
-  @Length(1, 80)
+  @MaxLength(80)
   nombreUser: string;
 
+  // OJO: en producción deberías hashear la contraseña en el service
   @IsString()
   @IsNotEmpty()
-  @Length(1, 255)
-  contrasenia: string; // aquí podrías enviar ya la contraseña hasheada o hashearla en el service
+  @MinLength(6)
+  @MaxLength(255)
+  contrasenia: string;
 
   @IsOptional()
   @IsInt()

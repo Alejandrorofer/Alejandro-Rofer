@@ -1,17 +1,29 @@
-// src/billetera/billetera.entity.ts
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity({ name: 'billetera' })
+@Entity('billetera', { schema: 'mydb' })
 export class Billetera {
-  @PrimaryGeneratedColumn({ type: 'int' })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'idbilletera' })
   idbilletera: number;
 
-  @Column('decimal', { precision: 14, scale: 2, default: 0 })
-  saldoActual: string; // se recomienda string para DECIMAL en TypeORM
+  @Column('decimal', {
+    name: 'saldoActual',
+    precision: 14,
+    scale: 2,
+    default: () => "'0.00'",
+  })
+  saldoActual: string;
 
-  @Column('decimal', { precision: 14, scale: 2, default: 0 })
+  @Column('decimal', {
+    name: 'saldoRetenido',
+    precision: 14,
+    scale: 2,
+    default: () => "'0.00'",
+  })
   saldoRetenido: string;
 
-  @Column({ type: 'datetime', nullable: true, default: null })
+  @Column('datetime', {
+    name: 'fechaUltima',
+    nullable: true,
+  })
   fechaUltima: Date | null;
 }
